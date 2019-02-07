@@ -1,0 +1,42 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Page Title</title>
+</head>
+
+<body>
+    <form method="POST">
+        <input type="text" name="txtId" value="<%=txtDolu%>">
+        <input type="submit" name="sbtGonder" value="Gönder">
+        <ul>
+            <%if (data!="") { %>
+            <li>
+                <%= data.name %>
+            </li>
+            <li>
+                <%= data.email %>
+            </li>
+            <li>
+                <%= data.id %>
+            </li>
+        </ul>
+        <% } %>
+    </form>
+
+    <ul>
+        <% if(oldSearches != "" ) {%>
+        <h1>
+            recent searches:
+        </h1>
+        <%oldSearches.forEach(function(arrayItem){ %>
+        <li>
+            <%= arrayItem.email%>
+        </li>
+        <% }) %>
+        <%}%>
+    </ul>
+</body>
+
+</html>

@@ -71,8 +71,6 @@ app.get('/index', function (req, res) {
     });
 });
 
-
-
 app.post('/index', function (req, res) {
 
   console.log('request infomm : ' + JSON.stringify(req.body));

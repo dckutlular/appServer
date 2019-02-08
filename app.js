@@ -44,15 +44,33 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // });
 
+
+//sakla(tüm dataları çekmek için)
+// app.get('/index', function (req, res) {
+//   mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected.'));
+//   Users.find({}, function (err, results) {
+//     if (err) throw err;
+//     console.log(results);
+//     res.render('index', { txtDolu: "", data: "", oldSearches: results });
+
+//   });
+// });
+
 app.get('/index', function (req, res) {
   mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected.'));
-  Users.find({}, function (err, results) {
-    if (err) throw err;
-    console.log(results);
-    res.render('index', { txtDolu: "", data: "", oldSearches: results });
 
-  });
+  Users
+    .find()
+    .sort({ 'date': -1 })
+    .limit(5)
+    .exec(function (err, results) {
+      // `posts` will be of length 20
+      if (err) throw err;
+      console.log(results);
+      res.render('index', { txtDolu: "", data: "", oldSearches: results });
+    });
 });
+
 
 
 app.post('/index', function (req, res) {
@@ -69,7 +87,8 @@ app.post('/index', function (req, res) {
     const obj = {
       name: data.name,
       email: data.email,
-      api_id: data.id
+      api_id: data.id,
+      date: Date.now()
     };
 
     const user = new Users(obj); // Yeni bir kullanıcı satırı oluşturalım.

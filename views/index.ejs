@@ -32,7 +32,9 @@
         </h1>
         <%oldSearches.forEach(function(arrayItem){ %>
         <li>
-            <%= arrayItem.email%>
+            <strong>id : </strong> <%= arrayItem.api_id%></br>
+            <strong>e-mail : </strong> <%= arrayItem.email%></br>
+            <strong>searched date : </strong> <%= arrayItem.date%>
         </li>
         <% }) %>
         <%}%>

@@ -70,7 +70,7 @@ app.get('/index', function (req, res) {
       res.render('index', { txtDolu: "", data: "", oldSearches: results });
     });
 });
-
+//test
 app.post('/index', function (req, res) {
 
   console.log('request infomm : ' + JSON.stringify(req.body));

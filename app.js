@@ -57,7 +57,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // });
 
 app.get('/index', function (req, res) {
-  mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected.'));
+  mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected1.'));
 
   Users
     .find()
@@ -70,37 +70,71 @@ app.get('/index', function (req, res) {
       res.render('index', { txtDolu: "", data: "", oldSearches: results });
     });
 });
+
+
+
 //test
 app.post('/index', function (req, res) {
 
   console.log('request infomm : ' + JSON.stringify(req.body));
-  const url = "https://jsonplaceholder.typicode.com/comments/" + req.body.txtId;
-  var oldSearches = "";
-  request.get(url, (error, response, body) => {
-    let data = JSON.parse(body);
-    console.log('body:  ' + body);
+  mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected2.'));
 
-    mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected.'));
+  //check if it is exist on mongodb.
+  Users
+    .find({ api_id: req.body.txtId })
+    .exec(function (err, results) {
+      if (err) throw err;
 
-    const obj = {
-      name: data.name,
-      email: data.email,
-      api_id: data.id,
-      date: Date.now()
-    };
+      //if exist
+      if (results != "") {
+        console.log('db de var.');
+        console.log('dbdeki değer: ', results);
+        var oldSearches = "";
+        res.render('index', { data: results[0], txtDolu: req.body.txtId, oldSearches: oldSearches });
+      }
 
-    const user = new Users(obj); // Yeni bir kullanıcı satırı oluşturalım.
+      //if doesn't exist: request to the api and log(save) it to mongodb
+      else {
+        console.log('db de yok.');
+        console.log('result', results);
+        const url = "https://jsonplaceholder.typicode.com/comments/" + req.body.txtId;
+        var oldSearches = "";
+        //req to the api
+        request.get(url, (error, response, body) => {
+          let data = JSON.parse(body);
+          console.log('body:  ' + body);
 
-    user.save((err, doc) => { // Yeni oluşturduğumuz satırı işleyelim.
-      if (err) {
-        console.error(err)
-      } else {
-        console.log(doc)
+
+          const obj = {
+            name: data.name,
+            email: data.email,
+            api_id: data.id,
+            date: Date.now()
+          };
+
+          const user = new Users(obj); // Yeni bir kullanıcı satırı oluşturalım.
+
+          user.save((err, doc) => { // Yeni oluşturduğumuz satırı işleyelim.
+            if (err) {
+              console.error(err)
+            } else {
+              console.log(doc)
+            }
+          });
+
+          // res.json(json);
+          res.render('index', { data: data, txtDolu: req.body.txtId, oldSearches: oldSearches });
+          // res.sendFile(path.join(__dirname + '/index.html'));
+        });
       }
     });
 
-    // res.json(json);
-    res.render('index', { data: data, txtDolu: req.body.txtId, oldSearches: oldSearches });
-    // res.sendFile(path.join(__dirname + '/index.html'));
-  });
+
+
+
+
+
+  //eğer bu id db'de yoksa api'ye istek at.
+
+
 });

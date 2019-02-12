@@ -15,6 +15,19 @@ router.get('/', function (req, res) {
             if (err) throw err;
             res.send(results); //res.json(results); de oluyor.
         });
+
+    //exec'in then li ve catchli kullanımı.
+    // Users
+    // .find()
+    // .sort({ 'date': -1 })
+    // .limit(5)
+    // .exec()
+    // .then(function (results) {
+    //     res.send(results);
+    // })//res.json(results); de oluyor.
+    // .catch(err => {
+    //     if (err) throw err;
+    // });
 });
 
 router.post('/', function (req, res) {

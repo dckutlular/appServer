@@ -1,8 +1,34 @@
 <html>
-    <head>
-        
-    </head>
-    <body>
-        asd
-    </body>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <strong>ID:</strong></br>
+    <textarea name='id'> </textarea></br></br>
+    <input type='button' value='Submit'>
+    <div id='divToFill'>
+
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('input').on('click', function () {
+                $.ajax({
+                    type : "POST",
+                    url: '../api',
+                    data: {
+                        api_id: $("textarea[name=id]").val()
+                    },
+                    dataType: 'json',
+                    success: function (response){
+                        // $('$divToFill').append('<ul><li> <li></ul>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
 </html>

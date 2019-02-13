@@ -34,10 +34,11 @@ router.post('/', function (req, res) {
     console.log('request infomm : ' + JSON.stringify(req.body));
     mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected.'));
 
+
     //check if it is exist on mongodb.
     Users
         // .find({ api_id: req.query.api_id })
-        .find({ api_id: req.body.api_id })
+        .find({ api_id: req.query.api_id })
         .exec(function (err, results) {
             if (err) throw err;
 
@@ -52,7 +53,7 @@ router.post('/', function (req, res) {
                 console.log('db de yok.');
                 console.log('result', results);
 
-                const url = "https://jsonplaceholder.typicode.com/comments/" + req.body.api_id;
+                const url = "https://jsonplaceholder.typicode.com/comments/" + req.query.api_id;
                 //req to the api
                 request.get(url, (error, response, body) => {
                     let data = JSON.parse(body);

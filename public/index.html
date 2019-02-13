@@ -1,32 +1,41 @@
-<html>
+<html ng-app="testApp">
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
 </head>
 
-<body>
-    <strong>ID:</strong></br>
-    <textarea name='id'> </textarea></br></br>
-    <input type='button' value='Submit'>
-    <div id='divToFill'>
+<body ng-controller="testController">
+    <button ng-click="getRequest()">Test Rest</button>
+    <table ng-If="isRender">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>e-mail</th>
+            <th>Date</th>
+        </tr>
+        <tr ng-repeat="item in response.data">
+            <td>{{item.api_id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.date}}</td>
+        </tr>
+    </table>
 
-    </div>
-
-    <script type="text/javascript">
-        $(function () {
-            $('input').on('click', function () {
-                $.ajax({
-                    type : "POST",
-                    url: '../api',
-                    data: {
-                        api_id: $("textarea[name=id]").val()
-                    },
-                    dataType: 'json',
-                    success: function (response){
-                        // $('$divToFill').append('<ul><li> <li></ul>');
-                    }
-                });
-            });
+    <script>
+        var testApp = angular.module('testApp', []);
+        testApp.controller('testController', function ($scope, $http) {
+            $scope.home = "This is the homepage";
+            $scope.isRender = false;
+            $scope.getRequest = function () {
+                $http.get("../api")
+                    .then(function successCallback(response) {
+                        $scope.response = response;
+                        $scope.isRender = true;
+                    }, function errorCallback(response) {
+                        console.log("Unable to perform get request");
+                    });
+            };
         });
     </script>
 </body>

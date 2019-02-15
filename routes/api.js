@@ -5,27 +5,11 @@ const request = require('request');
 const mongoose = require('mongoose');
 var twitterHelper = require('../helpers/twitterHelper.js');
 
-
-
-
-
 router.get('/twitter', function (req, res) {
-    var tweets = twitterHelper.GetLastTweetsOfUser('matthewsback', 2);
-    res.json(tweets);
+    twitterHelper.GetLastTweetsOfUser('matthewsback', 1, function (results) {
+        res.json(results);
+    });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 router.get('/', function (req, res) {
     mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected.'));

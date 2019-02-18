@@ -17,6 +17,28 @@ function GetLastTweetsOfUser(username, count, callback) {
     });
 };
 
+function GetHomeTimeline(count, callback) {
+    var params = { count: count };
+    client.get('statuses/home_timeline', params, function (error, tweets, response) {
+        console.log(error ? error : tweets);
+        callback(tweets);
+    });
+};
+
+//statuses/update
+//status:tweet
+//in reply to status id : hangi id ' li twite reply atıyosun.
+//auto populate reply metadata : reply'ın başındaki mention ı kaldırsın mı ?
+function TweetAt(status, in_reply_to_status_id,auto_populate_reply_metadata, callback) {
+    var params = { status: status ,in_reply_to_status_id:in_reply_to_status_id,auto_populate_reply_metadata:auto_populate_reply_metadata};
+    client.post('statuses/update', params, function (error, tweets, response) {
+        console.log(error ? error : tweets);
+        callback(tweets);
+    });
+};
+
 module.exports = {
-    GetLastTweetsOfUser: GetLastTweetsOfUser
+    GetLastTweetsOfUser: GetLastTweetsOfUser,
+    GetHomeTimeline : GetHomeTimeline,
+    TweetAt : TweetAt
 }

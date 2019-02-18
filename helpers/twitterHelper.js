@@ -18,16 +18,12 @@ var client = new Twitter({
 //     });
 // };
 
-
-
-
-/////////??????????//////////////////////
 function GetLastTweetsOfUser(username, count, callback) {
     var options = {
         url: 'https://api.twitter.com/1.1/statuses/user_timeline.json',
         headers: { 'User-Agent': 'request' },
         method : "GET",
-        formdata: {
+        oauth: {
             consumer_key: process.env.TWITTER_CONSUMER_KEY,
             consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
             access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
@@ -39,46 +35,10 @@ function GetLastTweetsOfUser(username, count, callback) {
         }
     };
     request(options, function (error, response, body) {
-        console.log(error ? error : response);
-        callback(response);
+        console.log(error ? error : body);
+        callback(JSON.parse(body));
     })
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function GetHomeTimeline(count, callback) {
     var params = { count: count };

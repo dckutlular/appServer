@@ -5,11 +5,29 @@ const request = require('request');
 const mongoose = require('mongoose');
 var twitterHelper = require('../helpers/twitterHelper.js');
 
-// router.get('/twitter', function (req, res) {
-//     twitterHelper.GetLastTweetsOfUser('matthewsback', 1, function (results) {
-//         res.json(results);
-//     });
-// });
+
+//?????////
+router.get('/twitter', function (req, res) {
+    twitterHelper.GetLastTweetsOfUser('matthewsback', 1, function (results) {
+        res.json(results);
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // router.get('/twitter', function (req, res) {
 //     twitterHelper.GetHomeTimeline(2, function (results) {
@@ -17,11 +35,11 @@ var twitterHelper = require('../helpers/twitterHelper.js');
 //     });
 // });
 
-router.get('/twitter', function (req, res) {
-    twitterHelper.TweetAt('@ccanozz test4','1094556766367551488',false, function (results) {
-        res.json(results);
-    });
-});
+// router.get('/twitter', function (req, res) {
+//     twitterHelper.TweetAt('@ccanozz test4','1094556766367551488',false, function (results) {
+//         res.json(results);
+//     });
+// });
 
 router.get('/', function (req, res) {
     mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected.'));

@@ -11,7 +11,9 @@ function GetLastTweetsOfUser(username, count, callback) {
     var params = { screen_name: username, count: count };
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         console.log(error ? error : tweets);
-        callback(tweets);
+        if(typeof callback ==="function"){
+            callback(tweets);
+        }
     });
 };
 

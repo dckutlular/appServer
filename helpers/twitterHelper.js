@@ -22,16 +22,16 @@ function GetLastTweetsOfUser(username, count, callback) {
     var options = {
         url: 'https://api.twitter.com/1.1/statuses/user_timeline.json',
         headers: { 'User-Agent': 'request' },
-        method : "GET",
+        method: "GET",
         oauth: {
             consumer_key: process.env.TWITTER_CONSUMER_KEY,
             consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
             access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
             access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
         },
-        qs:{
-            screen_name:username,
-            count : count
+        qs: {
+            screen_name: username,
+            count: count
         }
     };
     request(options, function (error, response, body) {
@@ -52,9 +52,17 @@ function GetHomeTimeline(count, callback) {
 //status:tweet
 //in reply to status id : hangi id ' li twite reply atıyosun.
 //auto populate reply metadata : reply'ın başındaki mention ı kaldırsın mı ?
-function TweetAt(status, in_reply_to_status_id, auto_populate_reply_metadata, callback) {
-    var params = { status: status, in_reply_to_status_id: in_reply_to_status_id, auto_populate_reply_metadata: auto_populate_reply_metadata };
+function TweetAt(status, callback) {
+    var params = { status: status };
     client.post('statuses/update', params, function (error, tweets, response) {
+        console.log(error ? error : tweets);
+        callback(tweets);
+    });
+};
+
+function Search(query, callback) {
+    var params = { q: query, result_type: 'recent' };
+    client.get('search/tweets', params, function (error, tweets, response) {
         console.log(error ? error : tweets);
         callback(tweets);
     });
@@ -63,5 +71,6 @@ function TweetAt(status, in_reply_to_status_id, auto_populate_reply_metadata, ca
 module.exports = {
     GetLastTweetsOfUser: GetLastTweetsOfUser,
     GetHomeTimeline: GetHomeTimeline,
-    TweetAt: TweetAt
+    TweetAt: TweetAt,
+    Search: Search
 }

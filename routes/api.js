@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 var twitterHelper = require('../helpers/twitterHelper.js');
 
 router.get('/twitter', function (req, res) {
-    twitterHelper.GetLastTweetsOfUser('matthewsback', 3, function (results) {
+    twitterHelper.GetLastTweetsOfUser('matthewsback', 1, function (results) {
         res.json(results);
     });
 });
@@ -18,7 +18,13 @@ router.get('/twitter2', function (req, res) {
 });
 
 router.get('/twitter3', function (req, res) {
-    twitterHelper.TweetAt('@ccanozz test4','1094556766367551488',false, function (results) {
+    twitterHelper.TweetAt('testt', function (results) {
+        res.json(results);
+    });
+});
+
+router.get('/twitter4', function (req, res) {
+    twitterHelper.Search('netaş', function (results) {
         res.json(results);
     });
 });

@@ -18,10 +18,12 @@ var client = new Twitter({
 //     });
 // };
 
+//bu şekilde çağırırsan kitli hesapların twitlerini çekemezsin. 
+//twitter metoduyla çekebilmemin sebebi : twitterdaki app ile matthewsback'i eşleştirmesi.
 function GetLastTweetsOfUser(username, count, callback) {
     var options = {
         url: 'https://api.twitter.com/1.1/statuses/user_timeline.json',
-        headers: { 'User-Agent': 'request' },
+        // headers: { 'User-Agent': 'request' },
         method: "GET",
         oauth: {
             consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -68,9 +70,38 @@ function Search(query, callback) {
     });
 };
 
+function ShowUser(username, callback) {
+    var params = { screen_name: username };
+    client.get('users/show', params, function (error, tweets, response) {
+        console.log(error ? error : tweets);
+        callback(tweets);
+    });
+};
+
+function GetFollowers(username, callback) {
+    var params = { screen_name: username };
+    client.get('followers/list', params, function (error, tweets, response) {
+        console.log(error ? error : tweets);
+        callback(tweets);
+    });
+};
+
+
+
+function GetFollowersByName(username, callback) {
+    var params = { screen_name: username };
+    client.get('followers/list', params, function (error, tweets, response) {
+        console.log(error ? error : tweets);
+        callback(tweets);
+    });
+};
+
 module.exports = {
     GetLastTweetsOfUser: GetLastTweetsOfUser,
     GetHomeTimeline: GetHomeTimeline,
     TweetAt: TweetAt,
-    Search: Search
+    Search: Search,
+    ShowUser: ShowUser,
+    GetFollowers: GetFollowers,
+    GetFollowersByName: GetFollowersByName
 }

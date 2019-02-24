@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 var twitterHelper = require('../helpers/twitterHelper.js');
 
 router.get('/twitter', function (req, res) {
-    twitterHelper.GetLastTweetsOfUser('matthewsback', 1, function (results) {
+    twitterHelper.GetLastTweetsOfUser('bilgemcakir', 1, function (results) {
         res.json(results);
     });
 });
@@ -23,11 +23,37 @@ router.get('/twitter3', function (req, res) {
     });
 });
 
-router.get('/twitter4', function (req, res) {
-    twitterHelper.Search('netaş', function (results) {
+router.get('/twitter/search', function (req, res) {
+    var query = req.query.query
+    twitterHelper.Search(query, function (results) {
         res.json(results);
     });
 });
+
+router.get('/twitter/showuser/:id', function (req, res) {
+    //biz burda params olarak göndermek istedik.
+    // http://localhost:8080/api/twitter/showuser/matthewsback
+    var username = req.params.id;
+    twitterHelper.ShowUser(username, function (results) {
+        res.json(results);
+    });
+});
+
+router.get('/twitter/followers/:username', function (req, res) {
+    var username = req.query.username
+    twitterHelper.GetFollowers(username, function (results) {
+        res.json(results);
+    });
+});
+
+router.get('/twitter/followersByName/:username', function (req, res) {
+    var username = req.query.username
+    twitterHelper.GetFollowersByName(username, function (results) {
+        console.log(results.users[0].name);
+        res.json(results);
+    });
+});
+
 
 router.get('/', function (req, res) {
     mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected.'));

@@ -40,16 +40,15 @@ router.get('/twitter/showuser/:id', function (req, res) {
 });
 
 router.get('/twitter/followers/:username', function (req, res) {
-    var username = req.query.username
+    var username = req.params.username
     twitterHelper.GetFollowers(username, function (results) {
         res.json(results);
     });
 });
 
 router.get('/twitter/followersByName/:username', function (req, res) {
-    var username = req.query.username
-    twitterHelper.GetFollowersByName(username, function (results) {
-        console.log(results.users[0].name);
+    var username = req.params.username
+    twitterHelper.GetFollowersByName(username, 2, function (results) {
         res.json(results);
     });
 });

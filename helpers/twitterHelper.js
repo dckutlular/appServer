@@ -87,33 +87,14 @@ function GetFollowers(username, callback) {
     });
 };
 
-
-
 function GetFollowersByName(username, count, callback) {
     var params = { screen_name: username, count: count };
     client.get('followers/list', params, function (error, followers, response) {
-        // followers.users.forEach(function (element) {
-        //     followersArr.push(element.name);
+        callback(error ? followers : followers.users.map(element => element.name))
+        ////map'in es6'sız kullanımı.
+        // var followersArr = followers.users.map(function (element) {
+        //    return element.name
         // });
-
-
-        if (error) {
-            console.log('is an error');
-            console.log(error);
-            callback(followers);
-        }
-        else {
-            console.log('no error');
-            const followersArr = followers.users.map(element => element.name);
-            ////map'in es6'sız kullanımı.
-            // var followersArr = followers.users.map(function (element) {
-            //    return element.name
-            // });
-
-            callback(followersArr);
-        }
-
-
     });
 };
 

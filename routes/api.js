@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 var twitterHelper = require('../helpers/twitterHelper.js');
 
 router.get('/twitter', function (req, res) {
-    twitterHelper.GetLastTweetsOfUser('bilgemcakir', 1, function (results) {
+    twitterHelper.GetLastTweetsOfUser('matthewsback', 1, function (results) {
         res.json(results);
     });
 });
@@ -48,7 +48,7 @@ router.get('/twitter/followers/:username', function (req, res) {
 
 router.get('/twitter/followersByName/:username', function (req, res) {
     var username = req.params.username
-    twitterHelper.GetFollowersByName(username, 2, function (results) {
+    twitterHelper.GetFollowersByName(username, 10, function (results) {
         res.json(results);
     });
 });
@@ -83,7 +83,6 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
     // console.log('request infomm : ' + JSON.stringify(req.body));
     mongoose.connect('mongodb://test:test321@ds125525.mlab.com:25525/deniz', err => console.log(err ? err : 'Mongo connected.'));
-
     //check if it is exist on mongodb.
     Users
         // .find({ api_id: req.query.api_id })
